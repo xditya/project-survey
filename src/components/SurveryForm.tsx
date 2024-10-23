@@ -296,7 +296,7 @@ export default function SurveyForm() {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="department">
-                  Class <span className="text-red-500">*</span>
+                  Department <span className="text-red-500">*</span>
                 </Label>
                 <Select
                   onValueChange={(value) =>
