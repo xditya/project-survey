@@ -24,7 +24,7 @@ import {
   XAxis,
   YAxis,
   CartesianGrid,
-  Tooltip,
+  Tooltip as RechartsTooltip,
   Legend,
   ResponsiveContainer,
 } from "recharts";
@@ -51,6 +51,15 @@ export default function AdminDashboard() {
     serviceRatings: { name: string; rating: number }[];
     studentData: StudentData[];
   } | null>(null);
+
+  const [hoveredImprovement, setHoveredImprovement] = useState<string | null>(
+    null
+  );
+  const [hoveredPosition, setHoveredPosition] = useState<{
+    x: number;
+    y: number;
+  } | null>(null);
+
   const router = useRouter();
 
   useEffect(() => {
@@ -58,27 +67,37 @@ export default function AdminDashboard() {
     if (!token) {
       router.push("/admin/login");
     } else {
+      const fetchData = async (token: string) => {
+        const response = await fetch("/api/admin/dashboard", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        if (response.ok) {
+          const result = await response.json();
+          setData(result);
+        } else {
+          router.push("/admin/login");
+        }
+      };
+
       fetchData(token);
     }
-  }, []);
+  }, [router]);
 
-  const fetchData = async (token: string) => {
-    const response = await fetch("/api/admin/dashboard", {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+  const handleMouseEnter = (improvement: string, event: React.MouseEvent) => {
+    setHoveredImprovement(improvement);
+    setHoveredPosition({ x: event.clientX, y: event.clientY });
+  };
 
-    if (response.ok) {
-      const result = await response.json();
-      setData(result);
-    } else {
-      router.push("/admin/login");
-    }
+  const handleMouseLeave = () => {
+    setHoveredImprovement(null);
+    setHoveredPosition(null);
   };
 
   if (!data) return <div>Loading...</div>;
 
   return (
-    <div className="container mx-auto py-10">
+    <div className="container mx-auto py-10 relative">
       <h1 className="text-3xl font-bold mb-6">Admin Dashboard</h1>
       <Tabs defaultValue="overview" className="space-y-4">
         <TabsList>
@@ -109,7 +128,7 @@ export default function AdminDashboard() {
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="name" />
                   <YAxis />
-                  <Tooltip />
+                  <RechartsTooltip />
                   <Legend />
                   <Bar dataKey="rating" fill="#8884d8" />
                 </BarChart>
@@ -148,11 +167,35 @@ export default function AdminDashboard() {
                       <TableCell>{student.department}</TableCell>
                       <TableCell>{student.classNumber}</TableCell>
                       <TableCell>{student.yearOfPassing}</TableCell>
-                      <TableCell>{student.printRating}</TableCell>
+
+                      <TableCell
+                        onMouseEnter={(e) =>
+                          handleMouseEnter(student.printImprovements, e)
+                        }
+                        onMouseLeave={handleMouseLeave}
+                      >
+                        {student.printRating}
+                      </TableCell>
                       <TableCell>{student.printDelays}</TableCell>
-                      <TableCell>{student.slipRating}</TableCell>
+
+                      <TableCell
+                        onMouseEnter={(e) =>
+                          handleMouseEnter(student.slipImprovements, e)
+                        }
+                        onMouseLeave={handleMouseLeave}
+                      >
+                        {student.slipRating}
+                      </TableCell>
                       <TableCell>{student.slipDelays}</TableCell>
-                      <TableCell>{student.canteenRating}</TableCell>
+
+                      <TableCell
+                        onMouseEnter={(e) =>
+                          handleMouseEnter(student.canteenImprovements, e)
+                        }
+                        onMouseLeave={handleMouseLeave}
+                      >
+                        {student.canteenRating}
+                      </TableCell>
                       <TableCell>{student.canteenDelays}</TableCell>
                     </TableRow>
                   ))}
@@ -162,6 +205,19 @@ export default function AdminDashboard() {
           </Card>
         </TabsContent>
       </Tabs>
+
+      {/* Tooltip rendering */}
+      {hoveredImprovement && hoveredPosition && (
+        <div
+          className="absolute bg-gray-700 text-white px-4 py-2 rounded-md"
+          style={{
+            top: hoveredPosition.y + 20,
+            left: hoveredPosition.x + 20,
+          }}
+        >
+          {hoveredImprovement}
+        </div>
+      )}
     </div>
   );
 }
