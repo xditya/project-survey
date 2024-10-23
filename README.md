@@ -1,36 +1,73 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Project Survey Website
+
+This is a simple web application designed to collect survey information from college students. It is part of our final project, built to improve data collection and enhance campus services.
+
+## Table of Contents
+
+- [Project Survey Website](#project-survey-website)
+  - [Table of Contents](#table-of-contents)
+  - [Overview](#overview)
+  - [Features](#features)
+  - [Technologies Used](#technologies-used)
+  - [Getting Started](#getting-started)
+  - [Screenshots](#screenshots)
+  - [Contributing](#contributing)
+  - [License](#license)
+
+## Overview
+
+The **Project Survey Website** enables students to easily submit feedback and complete surveys about various campus services. The data collected will help shape improvements and better cater to the needs of the student body.
+
+For more information on our final project, check out [Campus Services Management System](https://github.com/xditya/campusservicesmanagementsystem).
+
+## Features
+
+- Collect survey responses from students
+- Simple and user-friendly interface
+- Real-time form validation
+- Stored responses for future analysis
+- Secure and privacy-conscious design
+
+## Technologies Used
+
+- **Frontend**: React.js, Tailwind CSS
+- **Database**: MongoDB
 
 ## Getting Started
 
-First, run the development server:
+To run this project locally, follow these steps:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/xditya/project-survey.git
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Fill `env.local`:
+   ```code
+   MONGODB_URI=
+   JWT_SECRET=
+   ADMIN_USERNAME=
+   ADMIN_PASSWORD=
+   ```
+4. Start the development server:
+   ```bash
+   npm run dev
+   ```
+5. Open the app in your browser at `http://localhost:3000`.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Screenshots
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+![Landing Page](./res/landing.png)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+_The landing page of the Project Survey Website._
 
-## Learn More
+## Contributing
 
-To learn more about Next.js, take a look at the following resources:
+We welcome contributions! If you'd like to contribute, please fork the repository and use a feature branch. Pull requests are warmly welcome.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## License
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project is licensed under the [MIT License](./LICENSE.md).
